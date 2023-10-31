@@ -63,7 +63,7 @@ class Downloader {
     if (url && url.match('^https?://')) {
       const ending = url.substring(url.lastIndexOf('/'));
       const file = MEDIA_FOLDER + ending;
-      await downloadFile(url, path.join(this.outputFolder, MEDIA_FOLDER, post.title + ending.substring(ending.lastIndexOf('.')).replace(/\s+/gi, '-').replace(/[^a-zA-Z0-9\-]/gi, '')));
+      await downloadFile(url, path.join(this.outputFolder, MEDIA_FOLDER, post.title + '.' + ending.substring(ending.lastIndexOf('.')).replace(/[\s\?]+/gi, '-').replace(/[^a-zA-Z0-9\-]/gi, '')));
       return file;
     }
     return url;
