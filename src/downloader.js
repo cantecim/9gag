@@ -51,19 +51,19 @@ class Downloader {
 
   async _downloadPosts(posts) {
     for (let post of posts) {
-      post.content = await this._downloadMedia(post.content);
+      post.content = await this._downloadMedia(post.content, post);
       for (let comment of post.comments) {
-        comment.content = await this._downloadMedia(comment.content);
-        if (comment.reply) comment.reply.content = await this._downloadMedia(comment.reply.content);
+        comment.content = await this._downloadMedia(comment.content, post);
+        if (comment.reply) comment.reply.content = await this._downloadMedia(comment.reply.content, post);
       }
     }
   }
 
-  async _downloadMedia(url) {
+  async _downloadMedia(url, post) {
     if (url && url.match('^https?://')) {
       const ending = url.substring(url.lastIndexOf('/'));
       const file = MEDIA_FOLDER + ending;
-      await downloadFile(url, path.join(this.outputFolder, file));
+      await downloadFile(url, path.join(this.outputFolder, MEDIA_FOLDER, post.title + ending.substring(ending.lastIndexOf('.'))));
       return file;
     }
     return url;
